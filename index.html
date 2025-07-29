@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Data Entry</title>
-  <meta charset="UTF-8" />
+  <title>Date Entry Form</title>
+  <meta charset="UTF-8">
   <script src="script.js" defer></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .image-block { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; }
+    img { max-width: 30%; max-height: 250px; display: block; margin-bottom: 10px; }
+    input[type="text"] { width: 100%; padding: 6px; margin-bottom: 5px; }
+    .warning { color: red; font-size: 0.9em; }
+    .day-display { margin-top: 5px; font-style: italic; color: #555; }
+
+    #loading-spinner {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <h1>Data Entry Form</h1>
-<!-- 
-  <div id="start-section">
-    <label for="user_id">Enter your name or ID:</label>
-    <input id="user_id" required />
-    <button id="start-button">Start</button>
-  </div>
+  <div id="login-container"></div>
 
-  <div id="form-section" style="display:none;">
-    <h2 id="record-title"></h2>
-    <img id="record-image" src="" alt="Record Image" width="400" />
-    <form id="entry-form">
-      <label for="inputField">Your response:</label>
-      <input id="inputField" required />
+  <div id="form-container" style="display:none;">
+    <h1>Transcribe Patient Visit Dates</h1>
+    <p><strong>Instructions:</strong> Transcribe the date from each image using the format <code>dd/mm/yyyy</code>. If the date is unreadable, mark it as such.</p>
+    <form id="date-form">
+      <div id="output"></div>
+      <div id="summary-message" class="warning" style="margin-top:20px;font-weight:bold;"></div>
+        <div id="loading-spinner" style="display: none;">
+          <div class="spinner"></div>
+        </div>
       <button type="submit">Submit</button>
     </form>
-  </div> -->
+  </div>
 </body>
 </html>
