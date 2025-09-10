@@ -1,6 +1,6 @@
 const allowedWeekdays = ["Tuesday", "Friday", "Saturday"];
 const fieldData = [];
-const scriptUrl = "https://script.google.com/macros/s/AKfycbyP0r1Lgs08b7U_uK2z3pCGB-SWuchXmCCkNzMwR0PJgO4LQZDwgjzqyrG24_T6QXp1Zw/exec";
+const scriptUrl = "https://script.google.com/macros/s/AKfycbxbzAZ8rnaAJsDxFobalsOK6gj62RKIx-i0qheTr6AneOghq9JvNv4NTT7XFlOqO-02Qw/exec";
 let recordId;
 let username;
 
@@ -13,6 +13,7 @@ document.body.appendChild(submitSpinner);
 async function fetchRecord() {
   const res = await fetch(`${scriptUrl}?username=${encodeURIComponent(username)}`);
   const data = await res.json();
+  console.log("Fetched record:", data);
   return data;
 }
 
@@ -141,7 +142,6 @@ async function initializeFormPage() {
 
     fieldData.push({ input, checkbox, warning, dayDisplay });
   });
-  console.log("Finished rendering")
   spinner.style.display = "none";
 
   function validateAll() {
@@ -156,7 +156,7 @@ async function initializeFormPage() {
 
       const match = val.match(/^\d{2}\/\d{2}\/\d{4}$/);
       if (!match && !isChecked) {
-        warning.textContent = "Invalid format. Use DD/MM/YYYY.";
+        warning.textContent = "Invalid format. Use DD/MM/YYYY, including zeros and '20' where necessary.";
         count++;
         return;
       }
@@ -170,26 +170,60 @@ async function initializeFormPage() {
           return;
         }
         const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
-        dayDisplay.textContent = "Day of the week: " + weekday;
-        if (!allowedWeekdays.includes(weekday)) {
-          warning.textContent = "Not a typical visit day.";
+        if (y < 2016 || y > 2024) {
+          warning.textContent = "The date entered is not between 2016 and 2024. Are you sure this is correct?";
           count++;
+          return;
+        }
+        dayDisplay.textContent = "Day of the week: " + weekday;
+
+        if (!allowedWeekdays.includes(weekday)) {
+          warning.textContent = "The date entered is not a Tuesday, Friday, or Saturday. Are you sure this is correct?";
+          count++;
+          return;
+        }
+
+        if (i > 0) {
+          const prevVal = fieldData[i - 1].input.value.trim();
+          const prevMatch = prevVal.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+          if (prevMatch) {
+            const prevDate = new Date(parseInt(prevMatch[3]), parseInt(prevMatch[2]) - 1, parseInt(prevMatch[1]));
+            const prevWeekday = prevDate.toLocaleDateString("en-US", { weekday: "long" });
+
+            if (date < prevDate) {
+              warning.textContent = "The date entered is earlier than the previous date. Are you sure this is correct?";
+              count++;
+              return;
+            }
+
+            if (date.getTime() === prevDate.getTime()) {
+              warning.textContent = "The date entered is the same as the previous date. Are you sure this is correct?";
+              count++;
+              return;
+            }
+
+            if (weekday !== prevWeekday) {
+              warning.textContent = "The date entered is on a different weekday than the previous date (the previous date was a " + prevWeekday + "). Are you sure this is correct?";
+              count++;
+              return;
+            }
+          }
         }
       }
     });
 
     document.getElementById("summary-message").textContent = count > 0
-      ? `There are ${count} fields with issues. Please check.`
+      ? `There are ${count} fields with warnings. Please double check that these are correct before submitting.`
       : "";
   }
 
   fieldData.forEach(({ input, checkbox }) => {
-    input.addEventListener("input", () => {
-      let val = input.value.replace(/[^\d]/g, "");
-      if (val.length > 8) val = val.slice(0, 8);
-      if (val.length > 4) val = val.slice(0, 2) + "/" + val.slice(2, 4) + "/" + val.slice(4);
-      else if (val.length > 2) val = val.slice(0, 2) + "/" + val.slice(2);
-      input.value = val;
+    input.addEventListener("blur", () => {
+      const raw = input.value.trim();
+      if (/^\d{8}$/.test(raw) && !raw.includes("/")) {
+        input.value = raw.slice(0, 2) + "/" + raw.slice(2, 4) + "/" + raw.slice(4);
+      }
+      validateAll();
     });
     input.addEventListener("change", validateAll);
     checkbox.addEventListener("change", validateAll);
@@ -211,7 +245,14 @@ function startSessionTimers() {
   }, 30 * 60 * 1000);
 }
 
-document.getElementById("date-form").addEventListener("submit", async (e) => {
+// Prevent Enter key from submitting the form
+document.getElementById("entry-form").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+  }
+});
+
+document.getElementById("entry-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
   const payload = {
