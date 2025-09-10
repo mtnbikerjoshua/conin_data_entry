@@ -1,6 +1,6 @@
 const allowedWeekdays = ["Tuesday", "Friday", "Saturday"];
 const fieldData = [];
-const scriptUrl = "https://script.google.com/macros/s/AKfycbxbzAZ8rnaAJsDxFobalsOK6gj62RKIx-i0qheTr6AneOghq9JvNv4NTT7XFlOqO-02Qw/exec";
+const scriptUrl = "https://script.google.com/macros/s/AKfycbx8HE_n3lE81SZRc9oqgiNwfq36SWrBxu3yFtv0s5H6qdpepqi7yxepUZE1XaZ9w4dF6w/exec";
 let recordId;
 let username;
 
@@ -94,6 +94,28 @@ async function initializeFormPage() {
   fieldData.length = 0;
   document.getElementById("summary-message").textContent = "";
   const record = await fetchRecord();
+
+  (function showInstructionForCol() {
+    // Hide all instruction panels first (any element whose id ends with '-instructions')
+    document.querySelectorAll("[id$='-instructions']").forEach(el => {
+      el.style.display = "none";
+    });
+
+    const colValue = (record && record.col) ? String(record.col).trim() : "";
+    const targetId = colValue ? `${colValue.replace(/_/g, "-")}-instructions` : "";
+
+    if (targetId) {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.style.display = "";
+      } else {
+        console.warn(`Instruction element with id "${targetId}" not found in DOM.`);
+      }
+    } else if (colValue) {
+      console.warn(`No instruction mapping found for col="${colValue}".`);
+    }
+  })();
+
   recordId = record.record_id;
   const imageUrls = record.image_urls;
 

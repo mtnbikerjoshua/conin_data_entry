@@ -90,6 +90,67 @@
           the age is entered correctly, ignore the warning and click submit.
       </p>
     </div>
+    <div id="bmi-instructions" style="display: none;">
+      <h1>Transcribe Patient BMI</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient Body Mass Index values recorded at sequential visits. 
+        Enter the BMI exactly as it appears, using a comma as the decimal separator (for example, "17,3" 
+        not "17.3").
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous BMI values, follow these guidelines:
+          <ul>
+              <li>BMI values for children typically range between 9,0 and 30,0. Values outside this range 
+                should be double-checked carefully.</li>
+              <li>BMI will rarely fluctuate drastically between visits. A normal change in BMI between two 
+                consecutive visits is less than 2.</li>
+              <li>If part of the BMI value is cut off or uninterpretable, enter the part you can see and 
+                select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one BMI is unclear, it is okay to compare it with the values before and after to help confirm. 
+          For tough cases, it may be helpful to skip an image and come back to it once you have completed the rest. 
+          If a warning appears but you are <em>sure</em> the BMI is entered correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="bmi-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores will typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>Malnourished children will often have negative z-scores (meaning they are smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="diagnosis-instructions" style="display: none;"> </div>
+    <div id="head-cir-z-instructions" style="display: none;"> </div>
+    <div id="height-instructions" style="display: none;"> </div>
+    <div id="height-age-z-instructions" style="display: none;"> </div>
+    <div id="signature-instructions" style="display: none;"> </div>
+    <div id="weight-instructions" style="display: none;"> </div>
+    <div id="weight-age-z-instructions" style="display: none;"> </div>
+    <div id="weight-height-z-instructions" style="display: none;"> </div>
     <form id="entry-form">
       <div id="output"></div>
       <div id="summary-message" class="warning" style="margin-top:20px;font-weight:bold;"></div>
