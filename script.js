@@ -1,6 +1,6 @@
 const allowedWeekdays = ["Tuesday", "Friday", "Saturday"];
 const fieldData = [];
-const scriptUrl = "https://script.google.com/macros/s/AKfycbzMhKhoiS-pN-rJEetqjIm7nD66I34Cr_kaIQaCARVgjK_vctTTkqPZYQvhnjeUOXE/exec";
+const scriptUrl = "https://script.google.com/macros/s/AKfycbyAe-BfmODSLQz8TxpzTD7vs63jC2A1P63vWUc4pLlOjXy6rHq3jXFR0IO-yTcrlgysvw/exec";
 let recordId;
 let username;
 
