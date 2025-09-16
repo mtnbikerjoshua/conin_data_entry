@@ -115,7 +115,172 @@
           If a warning appears but you are <em>sure</em> the BMI is entered correctly, ignore the warning and click submit.
       </p>
     </div>
-    <div id="bmi-z-instructions" style="display: none;">
+    <div id="diagnosis-instructions" style="display: none;">
+      <h1>Transcribe Patient Diagnosis</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain the patient’s nutritional diagnosis written as two abbreviations separated by a dash: 
+        first the malnutrition diagnosis, then the height/stunting diagnosis (for example, "DC-DT"). 
+        Enter the abbreviated diagnosis exactly as it appears, using uppercase letters, a single dash, and no spaces.
+      </p>
+      <p>
+        Use the following key to interpret and transcribe diagnoses:
+      </p>
+      <p><strong>Malnutrition (first part):</strong></p>
+      <ul>
+        <li><strong>DG</strong>—desnutrición grave (severe malnutrition)</li>
+        <li><strong>DM</strong>—desnutrición moderada (moderate malnutrition)</li>
+        <li><strong>DL</strong>—desnutrición leve (mild malnutrition)</li>
+        <li><strong>DC</strong>—desnutrición crónica (chronic malnutrition)</li>
+        <li><strong>E</strong>—eutrófico (eutrophic; healthy nutritional status)</li>
+        <li><strong>S</strong> or <strong>SP</strong>—sobrepeso (overweight)</li>
+        <li><strong>O</strong>—obesidad (obesity)</li>
+      </ul>
+      <p><strong>Stunting (second part):</strong></p>
+      <ul>
+        <li><strong>TN</strong>—talla normal (normal height)</li>
+        <li><strong>DT</strong>—déficit de talla (mild stunting)</li>
+        <li><strong>BT</strong>—baja talla (moderate stunting)</li>
+        <li><strong>BTG</strong>—baja talla grave (severe stunting)</li>
+      </ul>
+      <p>
+        To help interpret hard to read or ambiguous diagnoses, follow these guidelines:
+        <ul>
+          <li>Diagnoses may remain the same across visits or change.</li>
+          <li>The diagnosis is likely to become less severe over time, as the child recovers.</li>
+          <li>Use only the abbreviations listed in the key above.</li>
+          <li>If the diagnosis is written in words instead of an abbreviation, enter 
+            the corresponding abbreviation from the list above.</li>
+          <li>If part of the diagnosis is cut off or uninterpretable, enter the part you can see and select "Incomplete/Unreadable." 
+              If the image contains no readable letters, enter "Blank".</li>
+        </ul>
+      </p>
+      <p>
+        If one diagnosis is unclear, it is okay to compare it with the values before and after 
+        to help confirm. If a warning appears but you are <em>sure</em> the transcription 
+        is correct, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="height-instructions" style="display: none;">
+      <h1>Transcribe Patient Height</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient height (length or stature) values in centimeters recorded at sequential visits. 
+        Enter the height exactly as it appears, using a comma as the decimal separator (for example, "62,5" 
+        not "62.5"). Do not include units (e.g. "cm"); instead, enter just the number.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous heights, follow these guidelines:
+          <ul>
+              <li>Some images may include units ("cm"). Ignore the units and just enter the number.</li>
+              <li>Typical heights for infants and children in this dataset range from 30,0 to 120,0.</li>
+              <li>Heights usually increase over time. A sudden decrease in height is almost always an error.</li>
+              <li>If part of the height is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one height is unclear, it is okay to compare it with the values before and after to help confirm. 
+          For tough cases, it may be helpful to skip an image and come back to it once you have completed the rest. 
+          If a warning appears but you are <em>sure</em> the height is entered correctly, ignore the warning and click submit.
+      </p>
+    </div>
+
+    <div id="head-circumference-instructions" style="display: none;">
+      <h1>Transcribe Head Circumference</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain head circumference values in centimeters recorded at sequential visits. Enter the value exactly as it appears,
+        using a comma as the decimal separator (for example, "34,5" not "34.5"). Do not include units (e.g. "cm"); enter just the number.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous values, follow these guidelines:
+          <ul>
+              <li>Some images may include units ("cm"). Ignore the units and just enter the number.</li>
+              <li>Typical values for infants and young children range from 25,0 to 60,0.</li>
+              <li>Head circumference usually increases over time in infancy, then slows; sudden large decreases are almost always an error.</li>
+              <li>If part of the value is cut off or uninterpretable, enter the part you can see and select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one value is unclear, compare it with the values before and after to help confirm. If a warning appears but you are <em>sure</em> the entry is correct, ignore the warning and click submit.
+      </p>
+    </div>
+
+    <div id="height-age-instructions" style="display: none;">
+      <h1>Transcribe Percentiles</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient percentiles for measures such as height, weight, and head circumference. 
+        Percentiles may be written as a plain number (e.g., "95"), with a percent sign (e.g., "95%"), 
+        or as a cutoff using a comparator with the letter "P" (e.g., "&gt;P90", "&lt;P3"). If decimals 
+        appear, use a comma as the decimal separator (e.g., "97,5%" not "97.5%"). In the case of a percentage 
+        with or without a percent sign, enter just the number without a percent sign. In the case of a cutoff 
+        value beginning with "P", enter the percentile exactly as written, including the letter P and 
+        &gt; or &lt; when present.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous entries, follow these guidelines:
+          <ul>
+              <li>Valid percentiles are typically between 1 and 99. Common cutoffs include "&lt;P3", "&lt;P10", "&gt;P90", and "&gt;P97".</li>
+              <li>These children are malnourished, so low percentiles are common.</li>
+              <li>If part of the value is cut off or uninterpretable, enter the part you can see and select "Incomplete/Unreadable." If the image contains no readable numbers or symbols, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one entry is unclear, it may help to complete other images first and return to it. If a warning appears but you are <em>sure</em> the entry is correct, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="weight-age-instructions" style="display: none;">
+      <h1>Transcribe Percentiles</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient percentiles for measures such as height, weight, and head circumference. 
+        Percentiles may be written as a plain number (e.g., "95"), with a percent sign (e.g., "95%"), 
+        or as a cutoff using a comparator with the letter "P" (e.g., "&gt;P90", "&lt;P3"). If decimals 
+        appear, use a comma as the decimal separator (e.g., "97,5%" not "97.5%"). In the case of a percentage 
+        with or without a percent sign, enter just the number without a percent sign. In the case of a cutoff 
+        value beginning with "P", enter the percentile exactly as written, including the letter P and 
+        &gt; or &lt; when present.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous entries, follow these guidelines:
+          <ul>
+              <li>Valid percentiles are typically between 1 and 99. Common cutoffs include "&lt;P3", "&lt;P10", "&gt;P90", and "&gt;P97".</li>
+              <li>These children are malnourished, so low percentiles are common.</li>
+              <li>If part of the value is cut off or uninterpretable, enter the part you can see and select "Incomplete/Unreadable." If the image contains no readable numbers or symbols, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one entry is unclear, it may help to complete other images first and return to it. If a warning appears but you are <em>sure</em> the entry is correct, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="weight-height-instructions" style="display: none;">
+      <h1>Transcribe Percentiles</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient percentiles for measures such as height, weight, and head circumference. 
+        Percentiles may be written as a plain number (e.g., "95"), with a percent sign (e.g., "95%"), 
+        or as a cutoff using a comparator with the letter "P" (e.g., "&gt;P90", "&lt;P3"). If decimals 
+        appear, use a comma as the decimal separator (e.g., "97,5%" not "97.5%"). In the case of a percentage 
+        with or without a percent sign, enter just the number without a percent sign. In the case of a cutoff 
+        value beginning with "P", enter the percentile exactly as written, including the letter P and 
+        &gt; or &lt; when present.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous entries, follow these guidelines:
+          <ul>
+              <li>Valid percentiles are typically between 1 and 99. Common cutoffs include "&lt;P3", "&lt;P10", "&gt;P90", and "&gt;P97".</li>
+              <li>These children are malnourished, so low percentiles are common.</li>
+              <li>If part of the value is cut off or uninterpretable, enter the part you can see and select "Incomplete/Unreadable." If the image contains no readable numbers or symbols, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one entry is unclear, it may help to complete other images first and return to it. If a warning appears but you are <em>sure</em> the entry is correct, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="signature-instructions" style="display: none;"> </div>
+    <div id="height-z-instructions" style="display: none;">
       <h1>Transcribe Z-Scores</h1>
       <p>
         <strong>Instructions: </strong>
@@ -128,8 +293,8 @@
       <p>
           To help interpret hard to read or ambiguous z-scores, follow these guidelines:
           <ul>
-              <li>Z-scores will typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
-              <li>Malnourished children will often have negative z-scores (meaning they are smaller than average).</li>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
               <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
                 consecutive visits is less than 0,5.</li>
               <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
@@ -143,14 +308,203 @@
           correctly, ignore the warning and click submit.
       </p>
     </div>
-    <div id="diagnosis-instructions" style="display: none;"> </div>
-    <div id="head-cir-z-instructions" style="display: none;"> </div>
-    <div id="height-instructions" style="display: none;"> </div>
-    <div id="height-age-z-instructions" style="display: none;"> </div>
-    <div id="signature-instructions" style="display: none;"> </div>
-    <div id="weight-instructions" style="display: none;"> </div>
-    <div id="weight-age-z-instructions" style="display: none;"> </div>
-    <div id="weight-height-z-instructions" style="display: none;"> </div>
+
+    <div id="weight-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
+
+    <div id="weight-instructions" style="display: none;">
+      <h1>Transcribe Patient Weight</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient weight values in kilograms recorded at sequential visits. 
+        Enter the weight exactly as it appears, using a comma as the decimal separator (for example, "6,25" 
+        not "6.25"). Do not include units (e.g. "kg"); instead, enter just the number.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous weights, follow these guidelines:
+          <ul>
+              <li>Some images may include units ("kg"). Ignore the units and just enter the number.</li>
+              <li>Weight is often written with three digits after the decimal place, for example "12,300" 
+                (meaning 12.300 in American notation). There is no need to enter trailing zeros; the above example
+                can be entered as simply "12,3".</li>
+              <li>Typical weights for infants and children in this dataset range from 1,0 to 25,0.</li>
+              <li>Weights usually increase over time, but may not always increase.</li>
+              <li>If part of the weight is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one weight is unclear, it is okay to compare it with the values before and after to help confirm. 
+          For tough cases, it may be helpful to skip an image and come back to it once you have completed the rest. 
+          If a warning appears but you are <em>sure</em> the weight is entered correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="bmi-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="head-cir-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="height-age-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="weight-age-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
+    <div id="weight-height-z-instructions" style="display: none;">
+      <h1>Transcribe Z-Scores</h1>
+      <p>
+        <strong>Instructions: </strong>
+        The following images contain patient z-scores for a measure such as BMI, weight, height, or head 
+        circumference. A z-score measures how a patient compares to an average child their age: a score of 0
+        means the child is average, a negative score is below average, and a positive score is above average.
+        Enter the z-score exactly as it appears, using a comma as the decimal separator (for example, "-2,35" 
+        not "-2.35"). Be sure to include a negative sign if there is one.
+      </p>
+      <p>
+          To help interpret hard to read or ambiguous z-scores, follow these guidelines:
+          <ul>
+              <li>Z-scores typically fall between -3 and 3. They will almost never be less than -6 or greater than 6.</li>
+              <li>The children in this data are malnourished, so they will often have negative z-scores (meaning the child is smaller than average).</li>
+              <li>Z-scores will rarely fluctuate drastically between visits. A normal change in z-score between two 
+                consecutive visits is less than 0,5.</li>
+              <li>If part of the z-score is cut off or uninterpretable, enter the part you can see and 
+              select "Incomplete/Unreadable." If the image contains no readable numbers, enter "Blank".</li>
+          </ul>
+      </p>
+      <p>
+          If one z-score is unclear, it is okay to compare it with the values before and after to help 
+          confirm. For tough cases, it may be helpful to skip an image and come back to it once you 
+          have completed the rest. If a warning appears but you are <em>sure</em> the z-score is entered 
+          correctly, ignore the warning and click submit.
+      </p>
+    </div>
     <form id="entry-form">
       <div id="output"></div>
       <div id="summary-message" class="warning" style="margin-top:20px;font-weight:bold;"></div>
