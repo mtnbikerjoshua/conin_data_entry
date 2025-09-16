@@ -94,6 +94,7 @@ async function initializeFormPage() {
   fieldData.length = 0;
   document.getElementById("summary-message").textContent = "";
   const record = await fetchRecord();
+  const colType = (record && record.col) ? String(record.col).trim() : "";
 
   (function showInstructionForCol() {
     // Hide all instruction panels first (any element whose id ends with '-instructions')
@@ -101,8 +102,7 @@ async function initializeFormPage() {
       el.style.display = "none";
     });
 
-    const colValue = (record && record.col) ? String(record.col).trim() : "";
-    const targetId = colValue ? `${colValue.replace(/_/g, "-")}-instructions` : "";
+    const targetId = colType ? `${colType.replace(/_/g, "-")}-instructions` : "";
 
     if (targetId) {
       const el = document.getElementById(targetId);
@@ -111,8 +111,8 @@ async function initializeFormPage() {
       } else {
         console.warn(`Instruction element with id "${targetId}" not found in DOM.`);
       }
-    } else if (colValue) {
-      console.warn(`No instruction mapping found for col="${colValue}".`);
+    } else if (colType) {
+      console.warn(`No instruction mapping found for colType="${colType}".`);
     }
   })();
 
@@ -166,73 +166,204 @@ async function initializeFormPage() {
   });
   spinner.style.display = "none";
 
-  function validateAll() {
+  function validateAll(colType) {
     let count = 0;
-    fieldData.forEach(({ input, checkbox, warning, dayDisplay }, i) => {
-      const val = input.value.trim();
-      const isChecked = checkbox.checked;
-      warning.textContent = "";
-      dayDisplay.textContent = "";
 
-      if (val === "" && !isChecked) return;
+    switch (colType) {
+      case "age": {
+        const agePattern = /^(?:EC)?(?:\d+a)?(?:\d+m)?(?:\d+d)?$/i;
+        const extractPattern = /^(?:([0-9]+)a)?(?:([0-9]+)m)?(?:([0-9]+)d)?$/;
+        const toDays = (y = 0, m = 0, d = 0) => (y * 365) + (m * 30) + d;
+        const maxDays = 6 * 365 - 1; // Under 6 years old
 
-      const match = val.match(/^\d{2}\/\d{2}\/\d{4}$/);
-      if (!match && !isChecked) {
-        warning.textContent = "Invalid format. Use DD/MM/YYYY, including zeros and '20' where necessary.";
-        count++;
-        return;
-      }
+        fieldData.forEach(({ input, checkbox, warning, dayDisplay }, i) => {
+          const raw = input.value.trim();
+          const val = raw.toLowerCase();
+          const isChecked = checkbox.checked;
 
-      if (match) {
-        const [d, m, y] = val.split("/").map(Number);
-        const date = new Date(y, m - 1, d);
-        if (date.getDate() !== d || date.getMonth() !== m - 1 || date.getFullYear() !== y) {
-          warning.textContent = "Invalid calendar date.";
-          count++;
-          return;
-        }
-        const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
-        if (y < 2016 || y > 2024) {
-          warning.textContent = "The date entered is not between 2016 and 2024. Are you sure this is correct?";
-          count++;
-          return;
-        }
-        dayDisplay.textContent = "Day of the week: " + weekday;
+          // If 'EC' is present but not at the beginning, prompt to move it to the start
+          if (/ec/i.test(val) && !/^ec\b/i.test(val)) {
+            warning.textContent = "If you include EC, enter it at the beginning of the age (e.g., 'EC1y3m').";
+            count++;
+            return;
+          }
 
-        if (!allowedWeekdays.includes(weekday)) {
-          warning.textContent = "The date entered is not a Tuesday, Friday, or Saturday. Are you sure this is correct?";
-          count++;
-          return;
-        }
+          warning.textContent = "";
+          dayDisplay.textContent = "";
 
-        if (i > 0) {
-          const prevVal = fieldData[i - 1].input.value.trim();
-          const prevMatch = prevVal.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-          if (prevMatch) {
-            const prevDate = new Date(parseInt(prevMatch[3]), parseInt(prevMatch[2]) - 1, parseInt(prevMatch[1]));
-            const prevWeekday = prevDate.toLocaleDateString("en-US", { weekday: "long" });
+          // Allow empty if not checked
+          if (val === "" && !isChecked) return;
 
-            if (date < prevDate) {
-              warning.textContent = "The date entered is earlier than the previous date. Are you sure this is correct?";
+          // Pattern check
+          if (!agePattern.test(val) && !isChecked) {
+            warning.textContent = "Invalid format. Use 'XaYmZd' with a=años, m=meses, d=días (e.g., '3a', '2a4m', '7m12d').";
+            count++;
+            return;
+          }
+
+          // If it matches, parse components and validate ranges
+          if (agePattern.test(val)) {
+            const valNoEC = val.replace(/^ec/i, "");
+            const match = extractPattern.exec(valNoEC) || [];
+            const years = match[1] ? parseInt(match[1], 10) : 0;
+            const months = match[2] ? parseInt(match[2], 10) : 0;
+            const days = match[3] ? parseInt(match[3], 10) : 0;
+
+            if (months > 12 || days > 31) {
+              warning.textContent = "Invalid age: months cannot exceed 12 and days cannot exceed 31.";
               count++;
               return;
             }
 
-            if (date.getTime() === prevDate.getTime()) {
-              warning.textContent = "The date entered is the same as the previous date. Are you sure this is correct?";
+            const totalDays = toDays(years, months, days);
+            if (totalDays > maxDays) {
+              warning.textContent = "The age entered is greater than 5 years 11 months. Are you sure this is correct?";
               count++;
               return;
             }
 
-            if (weekday !== prevWeekday) {
-              warning.textContent = "The date entered is on a different weekday than the previous date (the previous date was a " + prevWeekday + "). Are you sure this is correct?";
-              count++;
-              return;
+            // Compare with previous age if present
+            if (i > 0) {
+              const prevRaw = fieldData[i - 1].input.value.trim().toLowerCase();
+              if (agePattern.test(prevRaw)) {
+                const prevNoEC = prevRaw.replace(/^ec/i, "");
+                const pm = extractPattern.exec(prevNoEC) || [];
+                const pYears = pm[1] ? parseInt(pm[1], 10) : 0;
+                const pMonths = pm[2] ? parseInt(pm[2], 10) : 0;
+                const pDays = pm[3] ? parseInt(pm[3], 10) : 0;
+                const prevTotalDays = toDays(pYears, pMonths, pDays);
+
+                if (totalDays < prevTotalDays) {
+                  warning.textContent = "The age entered is less than the previous age. Are you sure this is correct?";
+                  count++;
+                  return;
+                }
+              }
             }
           }
-        }
+        });
+        break;
       }
-    });
+      case "date": {
+        fieldData.forEach(({ input, checkbox, warning, dayDisplay }, i) => {
+          const val = input.value.trim();
+          const isChecked = checkbox.checked;
+          warning.textContent = "";
+          dayDisplay.textContent = "";
+
+          if (val === "" && !isChecked) return;
+
+          const match = val.match(/^\d{2}\/\d{2}\/\d{4}$/);
+          if (!match && !isChecked) {
+            warning.textContent = "Invalid format. Use DD/MM/YYYY, including zeros and '20' where necessary.";
+            count++;
+            return;
+          }
+
+          if (match) {
+            const [d, m, y] = val.split("/").map(Number);
+            const date = new Date(y, m - 1, d);
+            if (date.getDate() !== d || date.getMonth() !== m - 1 || date.getFullYear() !== y) {
+              warning.textContent = "Invalid calendar date.";
+              count++;
+              return;
+            }
+            const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
+            if (y < 2016 || y > 2024) {
+              warning.textContent = "The date entered is not between 2016 and 2024. Are you sure this is correct?";
+              count++;
+              return;
+            }
+            dayDisplay.textContent = "Day of the week: " + weekday;
+
+            if (!allowedWeekdays.includes(weekday)) {
+              warning.textContent = "The date entered is not a Tuesday, Friday, or Saturday. Are you sure this is correct?";
+              count++;
+              return;
+            }
+
+            if (i > 0) {
+              const prevVal = fieldData[i - 1].input.value.trim();
+              const prevMatch = prevVal.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+              if (prevMatch) {
+                const prevDate = new Date(parseInt(prevMatch[3]), parseInt(prevMatch[2]) - 1, parseInt(prevMatch[1]));
+                const prevWeekday = prevDate.toLocaleDateString("en-US", { weekday: "long" });
+
+                if (date < prevDate) {
+                  warning.textContent = "The date entered is earlier than the previous date. Are you sure this is correct?";
+                  count++;
+                  return;
+                }
+
+                if (date.getTime() === prevDate.getTime()) {
+                  warning.textContent = "The date entered is the same as the previous date. Are you sure this is correct?";
+                  count++;
+                  return;
+                }
+
+                if (weekday !== prevWeekday) {
+                  warning.textContent = "The date entered is on a different weekday than the previous date (the previous date was a " + prevWeekday + "). Are you sure this is correct?";
+                  count++;
+                  return;
+                }
+              }
+            }
+          }
+        });
+        break;
+      }
+      case "height":
+        // TODO: add validation for height
+        break;
+      case "height_z":
+        // TODO: add validation for height_z
+        break;
+      case "weight":
+        // TODO: add validation for weight
+        break;
+      case "weight_z":
+        // TODO: add validation for weight_z
+        break;
+      case "bmi":
+        // TODO: add validation for bmi
+        break;
+      case "height_age":
+        // TODO: add validation for height_age
+        break;
+      case "signature":
+        // TODO: add validation for signature
+        break;
+      case "weight_age":
+        // TODO: add validation for weight_age
+        break;
+      case "weight_height":
+        // TODO: add validation for weight_height
+        break;
+      case "diagnosis":
+        // TODO: add validation for diagnosis
+        break;
+      case "weight_height_z":
+        // TODO: add validation for weight_height_z
+        break;
+      case "head_circumference":
+        // TODO: add validation for head_circumference
+        break;
+      case "bmi_z":
+        // TODO: add validation for bmi_z
+        break;
+      case "head_cir_z":
+        // TODO: add validation for head_cir_z
+        break;
+      case "height_age_z":
+        // TODO: add validation for height_age_z
+        break;
+      case "weight_age_z":
+        // TODO: add validation for weight_age_z
+        break;
+      default:
+        // Unknown colType; no validation rules applied yet
+        break;
+    }
 
     document.getElementById("summary-message").textContent = count > 0
       ? `There are ${count} fields with warnings. Please double check that these are correct before submitting.`
@@ -245,10 +376,10 @@ async function initializeFormPage() {
       if (/^\d{8}$/.test(raw) && !raw.includes("/")) {
         input.value = raw.slice(0, 2) + "/" + raw.slice(2, 4) + "/" + raw.slice(4);
       }
-      validateAll();
+      validateAll(colType);
     });
-    input.addEventListener("change", validateAll);
-    checkbox.addEventListener("change", validateAll);
+    input.addEventListener("change", () => validateAll(colType));
+    checkbox.addEventListener("change", () => validateAll(colType));
   });
 
   startSessionTimers();
